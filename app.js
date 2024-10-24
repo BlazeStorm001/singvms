@@ -8,7 +8,7 @@ document.getElementById('inference-form').addEventListener('submit', async funct
 
     // Show the loader
     document.getElementById('loader').style.display = 'block';
-    document.getElementById('result-image').style.display = 'none';
+    // document.getElementById('result-image').style.display = 'none';
 
     // If date or time is empty, get current date and time in Singapore Timezone
     if (!date || !time) {
@@ -28,18 +28,25 @@ document.getElementById('inference-form').addEventListener('submit', async funct
         return;
     }
 
-    // Run inference on the fetched image using Axios
-    const annotatedImage = await runInference(imageUrl);
+    fetch(`http://localhost:3000/proxy?image_url=${imageUrl}`)
+        .then(response => response.json())
+        .then(data => {
+            // Extract the base64 image from the visualization key
+            const annotatedImageBase64 = data.visualization;
 
-    if (annotatedImage) {
-        document.getElementById('result-image').src = annotatedImage;
-        document.getElementById('result-image').style.display = 'block';
-    } else {
-        alert("Error running inference");
-    }
+            // Set the src attribute of the result image
+            const resultImage = document.getElementById('result-image');
+            resultImage.src = `data:image/jpeg;base64,${annotatedImageBase64}`;
+            resultImage.alt = "Annotated Image";
 
-    // Hide the loader
-    document.getElementById('loader').style.display = 'none';
+            // Hide loader after fetching the image
+            document.getElementById('loader').style.display = 'none';
+            document.getElementById('result-img').style.display = 'block';
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('loader').style.display = 'none'; // Hide loader
+        });
 });
 
 // Fetch image from the traffic camera API
@@ -72,25 +79,4 @@ function formatDate(date, time) {
     return `${year}-${month}-${day}T${time}:00`;
 }
 
-// Run inference using Axios and Roboflow API
-async function runInference(imageUrl) {
-    const apiKey = 'V0cj9WqFoCPdo8MDcijB';  // Replace with your Roboflow API key
-    const modelId = 'vms-all/4';  // Replace with your Roboflow model ID
-    const roboflowUrl = `https://detect.roboflow.com/${modelId}`;
 
-    try {
-        const response = await axios({
-            method: "POST",
-            url: roboflowUrl,
-            params: {
-                api_key: apiKey,
-                image: imageUrl
-            }
-        });
-
-        return response.data.image_url; // Roboflow returns a URL to the annotated image
-    } catch (error) {
-        console.error('Error running inference:', error);
-        return null;
-    }
-}

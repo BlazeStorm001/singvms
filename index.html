@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Traffic Image Inference</title>
     <style>
+        #output {
+            display: none;
+        }
         body {
             font-family: Arial, sans-serif;
             margin: 50px;
@@ -42,7 +45,7 @@
         <label for="camera_id">Camera ID:</label><br>
         <input type="text" id="camera_id" name="camera_id" required><br><br>
 
-        <label for="date">Date (DD-MM-YY):</label><br>
+        <label for="date">Date (DD-MM-YYYY):</label><br>
         <input type="text" id="date" name="date"><br><br>
 
         <label for="time">Time (HH:MM):</label><br>
@@ -57,6 +60,6 @@
         <img id="result-image" src="" alt="Result" />
     </div>
 
-    <script src="app.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

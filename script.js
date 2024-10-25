@@ -21,32 +21,47 @@ document.getElementById('inference-form').addEventListener('submit', async funct
     }
 
     // Fetch the traffic image
-    const imageUrl = await fetchImageUrl(cameraId, date, time);
-    if (!imageUrl) {
+    const imageData = await fetchImageUrl(cameraId, date, time);
+    const imageUrl = imageData.url;
+    const imageTimestamp = imageData.ts;
+    if (!imageData) {
         alert("Error fetching image");
         document.getElementById('loader').style.display = 'none';
         return;
     }
 
-    fetch(`http://localhost:3000/proxy?image_url=${imageUrl}`)
-        .then(response => response.json())
-        .then(data => {
-            // Extract the base64 image from the visualization key
-            const annotatedImageBase64 = data.visualization;
+    const cloudRunApiUrl = 'https://singvms-cloud-463189406469.us-central1.run.app/infer';
 
-            // Set the src attribute of the result image
-            const resultImage = document.getElementById('result-image');
-            resultImage.src = `data:image/jpeg;base64,${annotatedImageBase64}`;
-            resultImage.alt = "Annotated Image";
+    fetch(`${cloudRunApiUrl}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            img_url: imageUrl, // Use the fetched image URL here
+            confidence: 0.5,
+            iou: 0.5,
+        }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Extract the base64 image from the visualization key
+        const annotatedImageBase64 = data.visualization;
 
-            // Hide loader after fetching the image
-            document.getElementById('loader').style.display = 'none';
-            document.getElementById('result-img').style.display = 'block';
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            document.getElementById('loader').style.display = 'none'; // Hide loader
-        });
+        // Set the src attribute of the result image
+        const resultImage = document.getElementById('result-image');
+        resultImage.src = `data:image/jpeg;base64,${annotatedImageBase64}`;
+        resultImage.alt = "Annotated Image";
+
+        // Hide loader after fetching the image
+        document.getElementById('loader').style.display = 'none';
+        document.getElementById('output').style.display = 'block';
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('loader').style.display = 'none'; // Hide loader
+    });
+
 });
 
 // Fetch image from the traffic camera API
@@ -62,7 +77,7 @@ async function fetchImageUrl(cameraId, date, time) {
         const camera = cameras.find(cam => cam.camera_id === cameraId);
 
         if (camera) {
-            return camera.image;
+            return {url: camera.image, ts: camera.timestamp};
         } else {
             console.error('Camera not found');
             return null;

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Image Inference</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/3.0.1/modern-normalize.min.css" integrity="sha512-q6WgHqiHlKyOqslT/lgBgodhd03Wp4BEqKeW6nNtlOY4quzyG3VoQKFrieaCeSnuVseNKRGpGeDU3qPmabCANg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css" /> 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+</head>
+<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+
+    <!-- Header -->
+    <header class="bg-blue-800 p-6 text-white text-center">
+        <h1 class="text-3xl font-bold">Singapore Live Traffic Monitoring</h1>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-5xl mx-auto p-6">
+        
+        <!-- Map Section -->
+        <div id="map" class="w-full h-96 bg-gray-300 mb-8 rounded-lg shadow-md"></div>
+        <div id="camera-info" class="text-lg font-medium mb-6 text-gray-700"></div>
+
+        <div class="mb-6">
+            <button onclick="toggleInstructions()" class="w-full flex justify-between items-center bg-blue-600 text-white font-semibold p-4 rounded-lg shadow-md focus:outline-none">
+                <div class="flex items-center">
+                    <!-- Font Awesome Question Mark Icon -->
+                    <i class="fas fa-question-circle text-white mr-2"></i>
+                    <span>How to Use the Website</span>
+                </div>
+                <i id="icon" class="fas fa-chevron-down transition-transform"></i>
+            </button>
+    
+            <div id="instructions-content" class="hidden mt-4 p-4 bg-gray-100 rounded-lg shadow-inner text-gray-700">
+                <p>Welcome to the Singapore Live Traffic Monitoring site! Here’s how to get started:</p>
+                <ul class="list-disc list-inside mt-2">
+                    <li>Use the map to select a camera by clicking one of the markers.</li>
+                    <li>Toggle “Live Tracking” which will fetch live images from the Camera whenever it becomes available (usaully updates every 3-5 minutes).</li>
+                    <li>When live tracking is disabled, you can enter the date and time manually to load images from a specific period.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Form Section -->
+        <form id="inference-form" class="bg-white p-8 rounded-lg shadow-lg">
+            <!-- Live Tracking Checkbox -->
+<div class="mb-6 flex items-center justify-center">
+    <input type="checkbox" id="live_tracking" name="live_tracking" checked class="form-checkbox h-5 w-5 text-blue-600 mr-2">
+    <label for="live_tracking" class="font-semibold text-gray-700">Enable Live Tracking</label>
+</div>
+
+<!-- Preload Images Slider -->
+<div class="mb-6">
+    <label for="track-history" class="font-semibold text-gray-700 block mb-2">
+        Preload Images from the last:
+        <span class="relative inline-block cursor-pointer">
+            <i class="fas fa-question-circle text-blue-600" data-tooltip="Select the time duration for which images should be preloaded."></i>
+            <span class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-1 w-48 bg-gray-800 text-white text-sm rounded-lg p-2 hidden tooltip">
+                For example, if you enter a duration of 20 minutes, all images captured within the last 20 minutes, or those recorded in the last 20 minutes from the specified date and time, will be displayed. 
+            </span>
+        </span>
+    </label>
+    <input type="range" id="track-history" name="track-history" min="5" max="30" value="15" step="5" class="w-full">
+    <span id="track-history-val" class="text-gray-500">15 minutes</span>
+</div>
+
+<!-- Track Vehicles Slider -->
+<div id="track-duration-container" class="mb-6">
+    <label for="track-duration" class="font-semibold text-gray-700 block mb-2">
+        Track Vehicles for the next:
+        <span class="relative inline-block cursor-pointer">
+            <i class="fas fa-question-circle text-blue-600" data-tooltip="Choose how long you want to track the vehicles."></i>
+            <span class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-1 w-48 bg-gray-800 text-white text-sm rounded-lg p-2 hidden tooltip">
+                Choose how long you want to track the vehicles from the current time.
+            </span>
+        </span>
+    </label>
+    <input type="range" id="track-duration" name="track-duration" min="5" max="30" value="15" step="5" class="w-full">
+    <span id="track-duration-val" class="text-gray-500">15 minutes</span>
+</div>
+
+<!-- Confidence Level and Overlap (Advanced Parameters) -->
+<div class="grid grid-cols-2 gap-4 mb-6">
+    <div>
+        <label for="confidence" class="font-semibold text-gray-700 block mb-2">
+            Confidence Level:
+            <span class="relative inline-block cursor-pointer">
+                <i class="fas fa-question-circle text-blue-600" data-tooltip="Set the confidence threshold for detection."></i>
+                <span class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-1 w-48 bg-gray-800 text-white text-sm rounded-lg p-2 hidden tooltip">
+                    Set the confidence threshold for detection.
+                </span>
+            </span>
+        </label>
+        <input type="text" id="confidence" name="confidence" value="0.3" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-600">
+    </div>
+    <div>
+        <label for="overlap" class="font-semibold text-gray-700 block mb-2">
+            Overlap:
+            <span class="relative inline-block cursor-pointer">
+                <i class="fas fa-question-circle text-blue-600" data-tooltip="Specify the overlap threshold for detection."></i>
+                <span class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-1 w-48 bg-gray-800 text-white text-sm rounded-lg p-2 hidden tooltip">
+                    Specify the overlap threshold for detection.
+                </span>
+            </span>
+        </label>
+        <input type="text" id="overlap" name="overlap" value="0.5" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-600">
+    </div>
+</div>
+
+<!-- Date and Time Input Section -->
+<div id="date-time-container" class="grid grid-cols-2 gap-4 mb-6">
+    <div>
+        <label for="date" class="font-semibold text-gray-700 block mb-2">
+            Date (DD-MM-YYYY):
+            <span class="relative inline-block cursor-pointer">
+                <i class="fas fa-question-circle text-blue-600" data-tooltip="Enter the date in the specified format."></i>
+                <span class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-1 w-48 bg-gray-800 text-white text-sm rounded-lg p-2 hidden tooltip">
+                    Enter the date in the specified format.
+                </span>
+            </span>
+        </label>
+        <input type="text" id="date" name="date" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-600">
+    </div>
+    <div>
+        <label for="time" class="font-semibold text-gray-700 block mb-2">
+            Time (HH:MM):
+            <span class="relative inline-block cursor-pointer">
+                <i class="fas fa-question-circle text-blue-600" data-tooltip="Enter the time in the specified format."></i>
+                <span class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-1 w-48 bg-gray-800 text-white text-sm rounded-lg p-2 hidden tooltip">
+                    Enter the time in the specified format.
+                </span>
+            </span>
+        </label>
+        <input type="text" id="time" name="time" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-600">
+    </div>
+</div>
+
+
+            <!-- Submit Button -->
+            <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-2 rounded-md hover:bg-blue-700 focus:outline-none">Start Tracking</button>
+        </form>
+
+        <!-- Swiper Containers for Image Galleries -->
+        <div class="swiper main-swiper mt-10" style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff">
+            <div id="no-images-message" class="text-center text-gray-500 mt-4 hidden">
+                No data to display...
+            </div>
+            <div class="swiper-wrapper" id="main-swiper-wrapper"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+        <div thumbsSlider="" class="swiper thumbnail-swiper mt-4">
+            <div class="swiper-wrapper" id="thumbnail-swiper-wrapper"></div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="bg-white shadow-md rounded-lg p-4">
+                <h2 class="text-lg font-semibold text-gray-700 mb-2">Total Count of Vehicles</h2>
+                <canvas id="lineChart" class="rounded-lg"></canvas>
+            </div>
+            <div class="bg-white shadow-md rounded-lg p-4">
+                <h2 class="text-lg font-semibold text-gray-700 mb-2">Vehicle Share Distribution</h2>
+                <canvas id="pieChart" class="rounded-lg"></canvas>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-blue-800 text-white text-center p-4 mt-8">
+        <p>&copy; Developed by Namit Arora. To be used for educational purposes only.</p>
+    </footer>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script> 
+    <script src="js/script.js"></script>
+    <script src="js/map.js"></script>
+    <script src="js/chart.js"></script>
+    
+</body>
+</html>

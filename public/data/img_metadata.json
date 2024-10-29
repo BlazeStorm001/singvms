@@ -1,0 +1,658 @@
+{
+    "Woodlands & Tuas Checkpoint": [
+        {
+            "View from Second Link at Tuas": {
+                "cam_id": "4703",
+                "latitude": 1.348697862,
+                "longitude": 103.6350413
+            }
+        },
+        {
+            "View from Tuas Checkpoint": {
+                "cam_id": "4713",
+                "latitude": 1.347645829,
+                "longitude": 103.6366955
+            }
+        },
+        {
+            "View from Woodlands Causeway (Towards Johor)": {
+                "cam_id": "2701",
+                "latitude": 1.447023728,
+                "longitude": 103.7716543
+            }
+        },
+        {
+            "View from Woodlands Checkpoint (Towards BKE)": {
+                "cam_id": "2702",
+                "latitude": 1.445554109,
+                "longitude": 103.7683397
+            }
+        }
+    ],
+    "Kranji Expressway (KJE)": [
+        {
+            "View from Choa Chu Kang West Flyover": {
+                "cam_id": "8701",
+                "latitude": 1.38647,
+                "longitude": 103.74143
+            }
+        },
+        {
+            "View from Entrance From Choa Chu Kang Dr": {
+                "cam_id": "8704",
+                "latitude": 1.3899,
+                "longitude": 103.74843
+            }
+        },
+        {
+            "View from Exit To BKE": {
+                "cam_id": "8702",
+                "latitude": 1.39059,
+                "longitude": 103.7717
+            }
+        },
+        {
+            "View from Tengah Flyover": {
+                "cam_id": "8706",
+                "latitude": 1.3664,
+                "longitude": 103.70899
+            }
+        }
+    ],
+    "Seletar Expressway (SLE)": [
+        {
+            "View from Lentor Flyover": {
+                "cam_id": "9701",
+                "latitude": 1.39466333,
+                "longitude": 103.83474601
+            }
+        },
+        {
+            "View from Mandai Flyover": {
+                "cam_id": "9706",
+                "latitude": 1.41270056,
+                "longitude": 103.80642712
+            }
+        },
+        {
+            "View from Marsiling Flyover": {
+                "cam_id": "9705",
+                "latitude": 1.42627712,
+                "longitude": 103.78716637
+            }
+        },
+        {
+            "View from SLE(BKE) Exit": {
+                "cam_id": "9703",
+                "latitude": 1.422857,
+                "longitude": 103.773005
+            }
+        },
+        {
+            "View from Ulu Sembawang Flyover": {
+                "cam_id": "9704",
+                "latitude": 1.42214311,
+                "longitude": 103.79542062
+            }
+        },
+        {
+            "View from Upp Thomson Flyover": {
+                "cam_id": "9702",
+                "latitude": 1.39474081,
+                "longitude": 103.81797086
+            }
+        }
+    ],
+    "Bukit Timah Expressway (BKE)": [
+        {
+            "View from after KJE Exit": {
+                "cam_id": "2706",
+                "latitude": 1.414142,
+                "longitude": 103.771168
+            }
+        },
+        {
+            "View from Chantek Flyover": {
+                "cam_id": "2703",
+                "latitude": 1.35047790791386,
+                "longitude": 103.791033581325
+            }
+        },
+        {
+            "View from Dairy Farm Flyover": {
+                "cam_id": "2705",
+                "latitude": 1.36728572,
+                "longitude": 103.7794698
+            }
+        },
+        {
+            "View from Exit 5 to KJE (Towards Checkpoint)": {
+                "cam_id": "2708",
+                "latitude": 1.3865,
+                "longitude": 103.7747
+            }
+        },
+        {
+            "View from Mandai Rd Entrance": {
+                "cam_id": "2707",
+                "latitude": 1.3983,
+                "longitude": 103.774247
+            }
+        },
+        {
+            "View from Woodlands Flyover (Towards Checkpoint)": {
+                "cam_id": "2704",
+                "latitude": 1.429588536,
+                "longitude": 103.769311
+            }
+        }
+    ],
+    "Ayer Rajah Expressway (AYE)": [
+        {
+            "View from After Tuas West Road": {
+                "cam_id": "4712",
+                "latitude": 1.341244001,
+                "longitude": 103.6439134
+            }
+        },
+        {
+            "View from Clementi Ave 6 Entrance": {
+                "cam_id": "4709",
+                "latitude": 1.312019,
+                "longitude": 103.763002
+            }
+        },
+        {
+            "View from Entrance from Benoi Rd": {
+                "cam_id": "4716",
+                "latitude": 1.32227,
+                "longitude": 103.67453
+            }
+        },
+        {
+            "View from Entrance from Jln Ahmad Ibrahim": {
+                "cam_id": "4707",
+                "latitude": 1.33344648135658,
+                "longitude": 103.652700847056
+            }
+        },
+        {
+            "View from Entrance from Yuan Ching Rd": {
+                "cam_id": "4705",
+                "latitude": 1.32618,
+                "longitude": 103.73028
+            }
+        },
+        {
+            "View from Keppel Viaduct": {
+                "cam_id": "4702",
+                "latitude": 1.27237,
+                "longitude": 103.8324
+            }
+        },
+        {
+            "View from Lower Delta Road": {
+                "cam_id": "4704",
+                "latitude": 1.27877,
+                "longitude": 103.82375
+            }
+        },
+        {
+            "View from Near Dover Drive": {
+                "cam_id": "4708",
+                "latitude": 1.29939,
+                "longitude": 103.7799
+            }
+        },
+        {
+            "View from Near NUS": {
+                "cam_id": "4706",
+                "latitude": 1.29792,
+                "longitude": 103.78205
+            }
+        },
+        {
+            "View from Near West Coast Walk": {
+                "cam_id": "4714",
+                "latitude": 1.31023,
+                "longitude": 103.76438
+            }
+        },
+        {
+            "View from Towards Alexandra Road": {
+                "cam_id": "4701",
+                "latitude": 1.2871,
+                "longitude": 103.79633
+            }
+        },
+        {
+            "View from Towards Pandan Gardens": {
+                "cam_id": "4710",
+                "latitude": 1.32153,
+                "longitude": 103.75273
+            }
+        }
+    ],
+    "Tampines Expressway (TPE)": [
+        {
+            "View from Entrance To Tampines Flyover": {
+                "cam_id": "7795",
+                "latitude": 1.38432741,
+                "longitude": 103.91585701
+            }
+        },
+        {
+            "View from Exit to Punggol Flyover": {
+                "cam_id": "7796",
+                "latitude": 1.39559294,
+                "longitude": 103.90515712
+            }
+        },
+        {
+            "View from Seletar Flyover": {
+                "cam_id": "7798",
+                "latitude": 1.39748842,
+                "longitude": 103.85400467
+            }
+        },
+        {
+            "View from Seletar West Link": {
+                "cam_id": "7797",
+                "latitude": 1.40002575,
+                "longitude": 103.85702534
+            }
+        },
+        {
+            "View from Tampines Ave 10 Entrance": {
+                "cam_id": "7793",
+                "latitude": 1.37704704,
+                "longitude": 103.92946983
+            }
+        },
+        {
+            "View from TPE(KPE) Exit": {
+                "cam_id": "7794",
+                "latitude": 1.37988658,
+                "longitude": 103.92009174
+            }
+        },
+        {
+            "View from Upp Changi Flyover Towards PIE": {
+                "cam_id": "7791",
+                "latitude": 1.354245,
+                "longitude": 103.963782
+            }
+        }
+    ],
+    "Kallang-Paya Lebar Expressway (KPE)": [
+        {
+            "View from Defu Flyover": {
+                "cam_id": "1005",
+                "latitude": 1.363519886,
+                "longitude": 103.905394
+            }
+        },
+        {
+            "View from Kallang Bahru": {
+                "cam_id": "1002",
+                "latitude": 1.319541067,
+                "longitude": 103.8785627
+            }
+        },
+        {
+            "View from Kallang Way Flyover": {
+                "cam_id": "1004",
+                "latitude": 1.319535712,
+                "longitude": 103.8750668
+            }
+        },
+        {
+            "View from KPE/ECP": {
+                "cam_id": "1001",
+                "latitude": 1.29531332,
+                "longitude": 103.871146
+            }
+        },
+        {
+            "View from KPE/PIE": {
+                "cam_id": "1003",
+                "latitude": 1.323957439,
+                "longitude": 103.8728576
+            }
+        },
+        {
+            "View from Tampines Flyover": {
+                "cam_id": "1006",
+                "latitude": 1.357098686,
+                "longitude": 103.902042
+            }
+        }
+    ],
+    "Central Expressway (CTE)": [
+        {
+            "View from Ang Mo Kio Ave 1 Flyover": {
+                "cam_id": "1711",
+                "latitude": 1.35296,
+                "longitude": 103.85719
+            }
+        },
+        {
+            "View from Ang Mo Kio Ave 5 Flyover": {
+                "cam_id": "1705",
+                "latitude": 1.375925022,
+                "longitude": 103.8587986
+            }
+        },
+        {
+            "View from Braddell Flyover": {
+                "cam_id": "1702",
+                "latitude": 1.34355015,
+                "longitude": 103.8601984
+            }
+        },
+        {
+            "View from Bukit Merah Flyover": {
+                "cam_id": "1707",
+                "latitude": 1.28036584335876,
+                "longitude": 103.830451146503
+            }
+        },
+        {
+            "View from Entrance from Chin Swee Road": {
+                "cam_id": "1704",
+                "latitude": 1.28569398886979,
+                "longitude": 103.837524510188
+            }
+        },
+        {
+            "View from Exit 6 to Bukit Timah Road": {
+                "cam_id": "1709",
+                "latitude": 1.31384231654635,
+                "longitude": 103.845603032574
+            }
+        },
+        {
+            "View from Moulmein Flyover": {
+                "cam_id": "1701",
+                "latitude": 1.323604823,
+                "longitude": 103.8587802
+            }
+        },
+        {
+            "View from St George Road": {
+                "cam_id": "1703",
+                "latitude": 1.32814722194857,
+                "longitude": 103.862203282048
+            }
+        },
+        {
+            "View from Yio Chu Kang Flyover": {
+                "cam_id": "1706",
+                "latitude": 1.38861,
+                "longitude": 103.85806
+            }
+        }
+    ],
+    "Marina Coastal Expressway (MCE)": [
+        {
+            "View from Marina Boulevard": {
+                "cam_id": "1505",
+                "latitude": 1.2752977149006,
+                "longitude": 103.866390381759
+            }
+        },
+        {
+            "View from Marina Boulevard/Marina Coastal Drive": {
+                "cam_id": "1502",
+                "latitude": 1.27135090682664,
+                "longitude": 103.861828440597
+            }
+        },
+        {
+            "View from Maxwell Road": {
+                "cam_id": "1501",
+                "latitude": 1.27414394350065,
+                "longitude": 103.851316802547
+            }
+        },
+        {
+            "View from MCE 1.02km": {
+                "cam_id": "1503",
+                "latitude": 1.27066408655104,
+                "longitude": 103.856977943394
+            }
+        },
+        {
+            "View from MCE/ECP": {
+                "cam_id": "1504",
+                "latitude": 1.29409891409364,
+                "longitude": 103.876056196568
+            }
+        }
+    ],
+    "Sentosa Gateway": [
+        {
+            "View from Sentosa Gateway (Towards Sentosa)": {
+                "cam_id": "4799",
+                "latitude": 1.26027777363278,
+                "longitude": 103.823888890049
+            }
+        },
+        {
+            "View from Sentosa Gateway (Towards Telok Blangah)": {
+                "cam_id": "4798",
+                "latitude": 1.25999999687243,
+                "longitude": 103.823611110166
+            }
+        }
+    ],
+    "Loyang Ave/Tanah Merah Coast Road": [
+        {
+            "View from Tanah Merah Coast Road towards Changi": {
+                "cam_id": "1113",
+                "latitude": 1.317036,
+                "longitude": 103.988598
+            }
+        },
+        {
+            "View from TPE(PIE), Exit 2 to Loyang Ave": {
+                "cam_id": "1111",
+                "latitude": 1.365434,
+                "longitude": 103.953997
+            }
+        },
+        {
+            "View from TPE(PIE), Tampines Viaduct": {
+                "cam_id": "1112",
+                "latitude": 1.3605,
+                "longitude": 103.961412
+            }
+        }
+    ],
+    "Pan-Island Expressway (PIE)": [
+        {
+            "View from Adam Road": {
+                "cam_id": "6705",
+                "latitude": 1.332124,
+                "longitude": 103.81768
+            }
+        },
+        {
+            "View from Bedok North": {
+                "cam_id": "5794",
+                "latitude": 1.3309693,
+                "longitude": 103.9168616
+            }
+        },
+        {
+            "View from Bukit Timah Expressway": {
+                "cam_id": "6706",
+                "latitude": 1.349428893,
+                "longitude": 103.7952799
+            }
+        },
+        {
+            "View from Entrance from Jalan Anak Bukit": {
+                "cam_id": "6710",
+                "latitude": 1.344205,
+                "longitude": 103.78577
+            }
+        },
+        {
+            "View from Entrance from Simei Ave": {
+                "cam_id": "6713",
+                "latitude": 1.340298,
+                "longitude": 103.945652
+            }
+        },
+        {
+            "View from Entrance to PIE from ECP Changi": {
+                "cam_id": "6711",
+                "latitude": 1.33771,
+                "longitude": 103.977827
+            }
+        },
+        {
+            "View from Eunos Flyover": {
+                "cam_id": "5795",
+                "latitude": 1.326024822,
+                "longitude": 103.905625
+            }
+        },
+        {
+            "View from Exit 27 to Clementi Ave 6": {
+                "cam_id": "6712",
+                "latitude": 1.332691,
+                "longitude": 103.770278
+            }
+        },
+        {
+            "View from Exit 35 to KJE": {
+                "cam_id": "6714",
+                "latitude": 1.361742,
+                "longitude": 103.703341
+            }
+        },
+        {
+            "View from Hong Kah Flyover": {
+                "cam_id": "6715",
+                "latitude": 1.356299,
+                "longitude": 103.716071
+            }
+        },
+        {
+            "View from Kallang Way": {
+                "cam_id": "5798",
+                "latitude": 1.32036078126842,
+                "longitude": 103.877174116489
+            }
+        },
+        {
+            "View from Kim Keat Link": {
+                "cam_id": "6701",
+                "latitude": 1.329334,
+                "longitude": 103.858222
+            }
+        },
+        {
+            "View from Mount Pleasant": {
+                "cam_id": "6704",
+                "latitude": 1.32657403632366,
+                "longitude": 103.826857295633
+            }
+        },
+        {
+            "View from Nanyang Flyover": {
+                "cam_id": "6708",
+                "latitude": 1.345996,
+                "longitude": 103.69016
+            }
+        },
+        {
+            "View from Paya Lebar Flyover": {
+                "cam_id": "5797",
+                "latitude": 1.322875288,
+                "longitude": 103.8910793
+            }
+        },
+        {
+            "View from Thomson Flyover": {
+                "cam_id": "6703",
+                "latitude": 1.328899,
+                "longitude": 103.84121
+            }
+        },
+        {
+            "View from Tuas Flyover": {
+                "cam_id": "6716",
+                "latitude": 1.322893,
+                "longitude": 103.6635051
+            }
+        },
+        {
+            "View from Woodsville Flyover": {
+                "cam_id": "5799",
+                "latitude": 1.328171608,
+                "longitude": 103.8685191
+            }
+        }
+    ],
+    "East Coast Parkway (ECP)": [
+        {
+            "View from Benjamin Sheares Bridge": {
+                "cam_id": "3798",
+                "latitude": 1.29158484,
+                "longitude": 103.8615987
+            }
+        },
+        {
+            "View from Entrance from MCE": {
+                "cam_id": "3704",
+                "latitude": 1.2958550156561,
+                "longitude": 103.880314665981
+            }
+        },
+        {
+            "View from Entrance from PIE": {
+                "cam_id": "3702",
+                "latitude": 1.33831,
+                "longitude": 103.98032
+            }
+        },
+        {
+            "View from Exit 2A to Changi Coast Road": {
+                "cam_id": "3705",
+                "latitude": 1.32743,
+                "longitude": 103.97383
+            }
+        },
+        {
+            "View from Laguna Flyover": {
+                "cam_id": "3793",
+                "latitude": 1.309330837,
+                "longitude": 103.9350504
+            }
+        },
+        {
+            "View from Marine Parade Flyover": {
+                "cam_id": "3795",
+                "latitude": 1.30145145166066,
+                "longitude": 103.910596320237
+            }
+        },
+        {
+            "View from Tanjong Katong Flyover": {
+                "cam_id": "3796",
+                "latitude": 1.297512569,
+                "longitude": 103.8983019
+            }
+        },
+        {
+            "View from Tanjong Rhu": {
+                "cam_id": "3797",
+                "latitude": 1.29565733262976,
+                "longitude": 103.885283049309
+            }
+        }
+    ]
+}

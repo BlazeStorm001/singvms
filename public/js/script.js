@@ -239,13 +239,11 @@ function extractVehicleInfo(jsonData) {
 }
 
 function adjustTime(dateTime, minutes) {
-    console.log("Input date = ", dateTime);
     const utcDate = getUtcDate(dateTime);
     let epochTimeInMilSeconds = Math.floor(utcDate.getTime());
     epochTimeInMilSeconds -= minutes * 60 * 1000;
     const adjustedDate = new Date(epochTimeInMilSeconds + 8 * 3600 * 1000);
     let isoString = adjustedDate.toISOString().slice(0, 19); // Remove the "Z" part
-    console.log("Adjusted date = ", isoString);
     return isoString;
 }
 
@@ -260,7 +258,6 @@ async function* fetchImageUrls(cameraId, date, time, history, interval) {
         currentTimestampInMilSecs = getUtcDate(currentTimestamp).getTime();
     }
     
-    console.log(currentTimestamp);
 
     for (let i = 0; i <= history; i += interval) {
         try {
@@ -275,8 +272,6 @@ async function* fetchImageUrls(cameraId, date, time, history, interval) {
                 currentTimestamp = imgTs;
                 currentTimestampInMilSecs = imgTsInMilSecs;
             }
-            // console.log("imgTsInsecs = ", imgTsInMilSecs);
-            // console.log("currentTimestampInMilSecs = ", currentTimestampInMilSecs);
             
             if (imgTsInMilSecs < currentTimestampInMilSecs - 60*1000*history) {
                 break;
@@ -301,7 +296,6 @@ async function* fetchImageUrls(cameraId, date, time, history, interval) {
 
 async function fetchImageUrl(cameraId, formattedDate) {
     const apiUrl = `https://api.data.gov.sg/v1/transport/traffic-images`;
-    console.log(formattedDate);
     try {
         let req_url;
         if (formattedDate) {
@@ -310,8 +304,6 @@ async function fetchImageUrl(cameraId, formattedDate) {
             req_url = apiUrl;
         }
         
-        console.log(req_url)
-
         const response = await fetch(req_url);
         const data = await response.json();
         const cameras = data.items[0].cameras;
@@ -352,14 +344,12 @@ async function liveTrackingCallback() {
         return;
     }
     const img = await fetchImageUrl(savedCamId, null);
-    console.log("New img = ", img);
     if (!img) {
         return;
     }
     const imgTs = img.ts.split('+')[0];
     const imgTsInMilSecs = getUtcDate(imgTs).getTime();
     if (allTimeStamps.includes(imgTsInMilSecs)) {
-        console.log("Image with ts = %s is duplicate.", imgTs);
         return;
         
     }
@@ -377,7 +367,7 @@ async function liveTrackingCallback() {
 
 async function fetchInferenceData(img, confidence, overlap) {
     if (!img || !confidence || !overlap) {
-        console.log("Invalid parameter values for inference..");
+        console.warn("Invalid parameter values for inference..");
     }
     const cloudRunApiUrl = 'http://localhost:3000/infer';
     try {

@@ -1,81 +1,85 @@
-
 .loader {
-    border: 6px solid #f3f3f3;
-    border-radius: 50%;
-    border-top: 6px solid #3498db;
-    width: 50px !important;
-    height: 50px !important;
-    animation: spin 2s linear infinite;
-    display: block;
-    margin: 20px auto;
+  border: 6px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 6px solid #3498db;
+  width: 50px !important;
+  height: 50px !important;
+  animation: spin 2s linear infinite;
+  display: block;
+  margin: 20px auto;
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+  background-position: center;
+}
+
+.swiper {
+  width: 100%;
+  height: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+.thumbnail-swiper {
+  height: 200px;
+  box-sizing: border-box;
+  padding: 10px 0;
+}
+
+.thumbnail-swiper .swiper-slide-thumb-active {
+  border-style: solid;
+  border-color: rgba(37, 99, 235);
+  border-width: 5px;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.thumbnail-swiper .swiper-slide img {
+  object-fit: cover;
 }
 
 
 .swiper-slide {
-    text-align: center;
-    font-size: 18px;
-    background: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-size: cover;
-    background-position: center;
-  }
-
-  .swiper {
-    width: 100%;
-    height: 500px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-
-  .thumbnail-swiper {
-    height: 200px;
-    box-sizing: border-box;
-    padding: 10px 0;
-  }
-
-  .thumbnail-swiper .swiper-slide-thumb-active {
-    border-style: solid;
-    border-color: rgba(37, 99, 235);
-    border-width: 5px;
-  }
-
-  .swiper-slide img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
-
-  .thumbnail-swiper .swiper-slide img {
-    object-fit: cover;
-  }
-
-
-  .swiper-slide {
-    position: relative;
+  position: relative;
 }
 
 .overlay-banner {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-    color: #fff;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
-    box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Semi-transparent background */
+  color: #fff;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
 
@@ -85,29 +89,33 @@
   max-width: 100%;
   max-height: 100%;
 }
-  .popup-list {
-  list-style-type: none; /* Remove default list styling */
-  padding: 0; /* Remove padding */
-  margin: 0; /* Remove margin */
+
+.popup-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
   max-height: 100px;
   overflow-y: scroll;
-  }
-  .popup-list li {
-      cursor: pointer; /* Show a pointer cursor on hover */
-      padding: 8px; /* Add padding for better click area */
-      border: 1px solid transparent; /* Transparent border for hover effect */
-      transition: background-color 0.3s, border 0.3s; /* Smooth transition */
-  }
-  .popup-list li:hover {
-      background-color: #f0f0f0; /* Change background on hover */
-      border: 1px solid #007bff; /* Add border on hover */
-  }
-
-
-  .relative:hover .tooltip {
-    display: block; /* Show tooltip on hover */
 }
 
-.swiper-button-next, .swiper-button-prev {
+.popup-list li {
+  cursor: pointer;
+  padding: 8px;
+  border: 1px solid transparent;
+  transition: background-color 0.3s, border 0.3s;
+}
+
+.popup-list li:hover {
+  background-color: #f0f0f0;
+  border: 1px solid #007bff;
+}
+
+
+.relative:hover .tooltip {
+  display: block;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
   color: rgba(37, 99, 235);
 }

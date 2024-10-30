@@ -16,7 +16,7 @@ var thumbnail_swiper = new Swiper(".thumbnail-swiper", {
     slidesPerView: 4,
     freeMode: true,
     watchSlidesProgress: true,
-  });
+});
 
 var main_swiper = new Swiper(".main-swiper", {
     loop: false,
@@ -28,16 +28,15 @@ var main_swiper = new Swiper(".main-swiper", {
     thumbs: {
         swiper: thumbnail_swiper,
     },
-  });
+});
 
-document.getElementById('inference-form').addEventListener('submit', async function(event) {
+document.getElementById('inference-form').addEventListener('submit', async function (event) {
     event.preventDefault(); // Prevent form submission from reloading the page
     // clear previous data
     main_swiper.removeAllSlides();
     thumbnail_swiper.removeAllSlides();
     allImgData = []
     allTimeStamps = [];
-    // Get form input values
     savedCamId = selectedCamId;
     savedDate = document.getElementById('date').value;
     savedTime = document.getElementById('time').value;
@@ -49,29 +48,42 @@ document.getElementById('inference-form').addEventListener('submit', async funct
 
     if (!savedCamId) {
         alert("Please select the camera from the Map...");
+        return;
     }
     if (!savedConfidence) {
         savedConfidence = 0.5
     }
     if (savedConfidence > 1 || savedConfidence < 0) {
         alert("Invalid value for confidence");
+        return;
     }
 
-    if(!savedOverlap) {
+    if (!savedOverlap) {
         savedOverlap = 0.5
     }
 
     if (savedOverlap > 1 || savedOverlap < 0) {
         alert("Invalid value for overlap");
+        return;
     }
 
-    if(!savedTrackHistory) {
-        savedTrackHistory = 5
+
+    if (!isTrackingEnabled) {
+        if (!savedDate || !savedTime) {
+            alert("Please enter date and time.");
+            return;
+        }
+        const dateRegex = /^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(19|20)\d{2}$/;
+        const timeRegex = /^(0[0-9]|1[0-9]|2[0-3]):([0-5][0-9])$/;
+        if (!dateRegex.test(savedDate) || !timeRegex.test(savedTime)) {
+            alert("Incorrect Date or Time format..");
+            return;
+        }
     }
 
 
     (async () => {
-        let imgUrlsGenerator  = fetchImageUrls(savedCamId, savedDate, savedTime, savedTrackHistory, 1);
+        let imgUrlsGenerator = fetchImageUrls(savedCamId, savedDate, savedTime, savedTrackHistory, 1);
 
         for await (const img of imgUrlsGenerator) {
             console.log("Img to be infered: ", img);
@@ -79,7 +91,7 @@ document.getElementById('inference-form').addEventListener('submit', async funct
                 continue;
             }
             const ts_in_milsecs = getUtcDate(img.ts.split('+')[0]).getTime();
-            const slideIndex = findSlideInsertIndex(allTimeStamps, ts_in_milsecs);
+            const slideIndex = findInsertIndex(allTimeStamps, ts_in_milsecs);
             addImageLoader(slideIndex);
             const inferenceData = await fetchInferenceData(img, savedConfidence, savedOverlap);
             if (!inferenceData) {
@@ -88,7 +100,7 @@ document.getElementById('inference-form').addEventListener('submit', async funct
             const vehicle_info = extractVehicleInfo(inferenceData);
             removeImageLoader(slideIndex);
             addImageToSlider(img, inferenceData, slideIndex, ts_in_milsecs, vehicle_info);
-            allImgData.splice(allImgData.length - slideIndex, 0, {timestamp: img.ts, ts_in_milsecs: ts_in_milsecs, vehicle_info: vehicle_info} );
+            allImgData.splice(allImgData.length - slideIndex, 0, { timestamp: img.ts, ts_in_milsecs: ts_in_milsecs, vehicle_info: vehicle_info });
             updateSliderDisplay();
             createCharts();
         }
@@ -96,64 +108,60 @@ document.getElementById('inference-form').addEventListener('submit', async funct
     })();
     if (isTrackingEnabled) {
         setInterval(liveTrackingCallback, 60000);
-        trackEndTime = Date.now() + savedTrackDuration*60*1000;
-    }   
-    
+        trackEndTime = Date.now() + savedTrackDuration * 60 * 1000;
+    }
+
 });
 
 
-function findSlideInsertIndex(sortedList, num) {
+function findInsertIndex(sortedList, num) {
     let left = 0;
     let right = sortedList.length - 1;
 
     while (left <= right) {
         const mid = Math.floor((left + right) / 2);
 
-        // Compare mid element with num
         if (sortedList[mid] < num) {
-            // We need to insert before mid
             right = mid - 1;
         } else {
-            // We need to insert after mid
             left = mid + 1;
         }
     }
-    
-    // left is the index where num should be inserted
+
     return left;
 }
 
 
- // Update the displayed value when the slider is moved
+// Update the displayed value when the slider is moved
 
- document.getElementById('track-history').addEventListener('input', function() {
+document.getElementById('track-history').addEventListener('input', function () {
     const track_history_val = document.getElementById('track-history-val');
-    track_history_val.textContent =  document.getElementById('track-history').value + ' minutes';
- });
+    track_history_val.textContent = document.getElementById('track-history').value + ' minutes';
+});
 
- document.getElementById('track-duration').addEventListener('input', function() {
+document.getElementById('track-duration').addEventListener('input', function () {
     const track_duration_val = document.getElementById('track-duration-val');
-    track_duration_val.textContent =  document.getElementById('track-duration').value + ' minutes';
- });
+    track_duration_val.textContent = document.getElementById('track-duration').value + ' minutes';
+});
 
-  function addImageLoader(slide_index) {
-    main_swiper.addSlide(slide_index, 
-		`<div class="swiper-slide">
+function addImageLoader(slide_index) {
+    main_swiper.addSlide(slide_index,
+        `<div class="swiper-slide">
             <div class='loader'></div>
         </div>`,
-	);
-    thumbnail_swiper.addSlide(slide_index, 
-		`<div class="swiper-slide">
+    );
+    thumbnail_swiper.addSlide(slide_index,
+        `<div class="swiper-slide">
             <div class='loader'></div>
         </div>`,
-	);
-  }
+    );
+}
 
-  function removeImageLoader(slide_index) {
+function removeImageLoader(slide_index) {
     main_swiper.removeSlide(slide_index);
     thumbnail_swiper.removeSlide(slide_index);
-  }
-  function addImageToSlider(img, inference_data, slide_index, ts_in_milsecs, vehicle_info) {
+}
+function addImageToSlider(img, inference_data, slide_index, ts_in_milsecs, vehicle_info) {
     if (!img || !inference_data) {
         return;
     }
@@ -161,21 +169,20 @@ function findSlideInsertIndex(sortedList, num) {
     // Extract the base64 image from the visualization key
     allTimeStamps.splice(slide_index, 0, ts_in_milsecs);
     const img_bas64 = inference_data.visualization;
-    
 
 
-    main_swiper.addSlide(slide_index, 
-		`<div class="swiper-slide">
+    main_swiper.addSlide(slide_index,
+        `<div class="swiper-slide">
             <div class="overlay-banner">Total Vehicles: ${vehicle_info.total_count}, Cars: ${vehicle_info.cars}, Two-wheelers: ${vehicle_info.two_wheelers}, Trucks: ${vehicle_info.trucks}, Buses: ${vehicle_info.buses}, Timestamp: ${img.ts}</div>
             <img src="data:image/jpeg;base64,${img_bas64}" alt="Image at ${img.ts}"/>
         </div>`,
-	);
-    thumbnail_swiper.addSlide(slide_index, 
-		`<div class="swiper-slide">
+    );
+    thumbnail_swiper.addSlide(slide_index,
+        `<div class="swiper-slide">
             <img src="data:image/jpeg;base64,${img_bas64}" alt="Image at ${img.ts}"/>
         </div>`,
-	);
-  }
+    );
+}
 
 
 // Format date and time into the correct API format (YYYY-MM-DDTHH:MM:SS)
@@ -207,35 +214,35 @@ function getCurrentSingaporeTime() {
 }
 
 function getUtcDate(dateTime) {
-     // Parse the input date string as a UTC+8 date
-     const [datePart, timePart] = dateTime.split("T");
-     const [year, month, day] = datePart.split("-");
-     const [hours, minutesPart, seconds] = timePart.split(":");
- 
-     // Create a Date object for UTC+8 by converting the hours to UTC
-     const utcDate = new Date(Date.UTC(year, month - 1, day, hours - 8, minutesPart, seconds || "00"));
-     return utcDate;
- 
+    // Parse the input date string as a UTC+8 date
+    const [datePart, timePart] = dateTime.split("T");
+    const [year, month, day] = datePart.split("-");
+    const [hours, minutesPart, seconds] = timePart.split(":");
+
+    // Create a Date object for UTC+8 by converting the hours to UTC
+    const utcDate = new Date(Date.UTC(year, month - 1, day, hours - 8, minutesPart, seconds || "00"));
+    return utcDate;
+
 }
 
 function extractVehicleInfo(jsonData) {
     let trucks = 0;
-    let cars  = 0;
+    let cars = 0;
     let buses = 0;
     let two_wheelers = 0;
     let total_count = jsonData.predictions.length;
     for (const pred of jsonData.predictions) {
         if (pred.class === 'car') {
             cars++;
-        } else if (pred.class === 'bus'){
+        } else if (pred.class === 'bus') {
             buses++;
-        } else if (pred.class === 'truck'){
+        } else if (pred.class === 'truck') {
             trucks++;
-        } else if (pred.class === 'two-wheeler'){
+        } else if (pred.class === 'two-wheeler') {
             two_wheelers++;
         }
     }
-    return {total_count: total_count, trucks: trucks, cars: cars, buses:buses, two_wheelers:two_wheelers };
+    return { total_count: total_count, trucks: trucks, cars: cars, buses: buses, two_wheelers: two_wheelers };
 }
 
 function adjustTime(dateTime, minutes) {
@@ -257,7 +264,7 @@ async function* fetchImageUrls(cameraId, date, time, history, interval) {
         currentTimestamp = formatDate(date, time).toString();
         currentTimestampInMilSecs = getUtcDate(currentTimestamp).getTime();
     }
-    
+
 
     for (let i = 0; i <= history; i += interval) {
         try {
@@ -272,8 +279,8 @@ async function* fetchImageUrls(cameraId, date, time, history, interval) {
                 currentTimestamp = imgTs;
                 currentTimestampInMilSecs = imgTsInMilSecs;
             }
-            
-            if (imgTsInMilSecs < currentTimestampInMilSecs - 60*1000*history) {
+
+            if (imgTsInMilSecs < currentTimestampInMilSecs - 60 * 1000 * history) {
                 break;
             }
 
@@ -303,14 +310,14 @@ async function fetchImageUrl(cameraId, formattedDate) {
         } else {
             req_url = apiUrl;
         }
-        
+
         const response = await fetch(req_url);
         const data = await response.json();
         const cameras = data.items[0].cameras;
         const camera = cameras.find(cam => cam.camera_id === cameraId);
 
         if (camera) {
-            return {url: camera.image, ts: camera.timestamp};
+            return { url: camera.image, ts: camera.timestamp };
         } else {
             console.error('Camera not found');
             return null;
@@ -323,20 +330,20 @@ async function fetchImageUrl(cameraId, formattedDate) {
 
 
 const liveTrackingCheckbox = document.getElementById('live_tracking');
-    const dateTimeContainer = document.getElementById('date-time-container');
-    const trackDurationContainer = document.getElementById('track-duration-container');
+const dateTimeContainer = document.getElementById('date-time-container');
+const trackDurationContainer = document.getElementById('track-duration-container');
 
-    function toggleFields() {
-        const shouldHide = liveTrackingCheckbox.checked;
-        dateTimeContainer.style.display = shouldHide ? 'none' : 'block';
-        trackDurationContainer.style.display = shouldHide ? 'block' : 'none';
-    }
+function toggleFields() {
+    const shouldHide = liveTrackingCheckbox.checked;
+    dateTimeContainer.style.display = shouldHide ? 'none' : 'block';
+    trackDurationContainer.style.display = shouldHide ? 'block' : 'none';
+}
 
-    // Initial check on page load
-    toggleFields();
+// Initial check on page load
+toggleFields();
 
-    // Listen for changes on the live tracking checkbox
-    liveTrackingCheckbox.addEventListener('change', toggleFields);
+// Listen for changes on the live tracking checkbox
+liveTrackingCheckbox.addEventListener('change', toggleFields);
 
 
 async function liveTrackingCallback() {
@@ -351,15 +358,15 @@ async function liveTrackingCallback() {
     const imgTsInMilSecs = getUtcDate(imgTs).getTime();
     if (allTimeStamps.includes(imgTsInMilSecs)) {
         return;
-        
+
     }
     const inferenceData = await fetchInferenceData(img, savedConfidence, savedOverlap);
     console.log("Adding new Image..");
     const ts_in_milsecs = getUtcDate(img.ts.split('+')[0]).getTime();
-    const slideIndex = findSlideInsertIndex(allTimeStamps, ts_in_milsecs);
+    const slideIndex = findInsertIndex(allTimeStamps, ts_in_milsecs);
     const vehicle_info = extractVehicleInfo(inferenceData);
     addImageToSlider(img, inferenceData, slideIndex, ts_in_milsecs, vehicle_info);
-    allImgData.splice(allImgData.length - slideIndex, 0, {timestamp: img.ts, ts_in_milsecs: ts_in_milsecs, vehicle_info: vehicle_info} );
+    allImgData.splice(allImgData.length - slideIndex, 0, { timestamp: img.ts, ts_in_milsecs: ts_in_milsecs, vehicle_info: vehicle_info });
     createCharts();
     updateSliderDisplay();
 }
@@ -382,7 +389,7 @@ async function fetchInferenceData(img, confidence, overlap) {
                 iou: overlap,
             }),
         });
-        const jsonResponse =  await response.json();
+        const jsonResponse = await response.json();
         return jsonResponse;
     } catch (error) {
         console.error('Error:', error);
@@ -408,5 +415,4 @@ function updateSliderDisplay() {
     }
 }
 
-// Call this function whenever you update the slides
 updateSliderDisplay();

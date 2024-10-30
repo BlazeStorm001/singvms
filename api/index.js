@@ -4,9 +4,8 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 const path = require('path');
 const cors = require('cors');
-app.use(express.json()); // For parsing application/json
+app.use(express.json());
 app.use(cors());
-// Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Define routes for each HTML file
@@ -28,7 +27,6 @@ app.post('/infer', async (req, res) => {
     }
 
     try {
-        // Make request to Roboflow API
         const response = await axios({
             method: "POST",
             url: "https://detect.roboflow.com/vms-all/4",
@@ -49,11 +47,6 @@ app.post('/infer', async (req, res) => {
         res.status(500).json({ error: 'Error fetching data from Roboflow' });
     }
 });
-
-// // Start server
-// app.listen(PORT, () => {
-//     console.log(`Proxy server running on port ${PORT}`);
-// });
 
 
 module.exports = app; // Export app for Vercel

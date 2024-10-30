@@ -369,7 +369,7 @@ async function fetchInferenceData(img, confidence, overlap) {
     if (!img || !confidence || !overlap) {
         console.warn("Invalid parameter values for inference..");
     }
-    const cloudRunApiUrl = 'https://singaporelivetrafficmonitoringcomputervision.vercel.app/infer';
+    const cloudRunApiUrl = '/infer';
     try {
         const response = await fetch(cloudRunApiUrl, {
             method: 'POST',

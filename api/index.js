@@ -1,7 +1,7 @@
 const express = require('express');
 const axios = require('axios');
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 const path = require('path');
 const cors = require('cors');
 app.use(express.json()); // For parsing application/json
@@ -50,7 +50,10 @@ app.post('/infer', async (req, res) => {
     }
 });
 
-// Start server
-app.listen(PORT, () => {
-    console.log(`Proxy server running on port ${PORT}`);
-});
+// // Start server
+// app.listen(PORT, () => {
+//     console.log(`Proxy server running on port ${PORT}`);
+// });
+
+
+module.exports = app; // Export app for Vercel

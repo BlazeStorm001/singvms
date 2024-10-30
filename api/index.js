@@ -13,8 +13,6 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-require('dotenv').config();
-
 const apiKey = process.env.ROBOFLOW_API_KEY;
 
 // POST API Endpoint: /infer

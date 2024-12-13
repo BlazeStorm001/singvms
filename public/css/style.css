@@ -100,14 +100,22 @@
 
 .popup-list li {
   cursor: pointer;
-  padding: 8px;
-  border: 1px solid transparent;
-  transition: background-color 0.3s, border 0.3s;
+  padding: 10px;
+  border: 1px solid #478bd4;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: #fff;
+  text-align: center;
+  font-weight: bold;
+  transition: background-color 0.3s, border 0.3s, transform 0.2s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 5px 0;
 }
 
 .popup-list li:hover {
-  background-color: #f0f0f0;
-  border: 1px solid #007bff;
+  background-color: #0056b3;
+  border-color: #0056b3;
+  transform: translateY(-2px);
 }
 
 

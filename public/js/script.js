@@ -10,6 +10,9 @@ let savedTrackHistory = null;
 let isTrackingEnabled = true;
 let trackEndTime = 0;
 
+let isTrackingStarted  = false;
+let trackSetInterval = null;
+
 var thumbnail_swiper = new Swiper(".thumbnail-swiper", {
     loop: false,
     spaceBetween: 10,
@@ -32,6 +35,16 @@ var main_swiper = new Swiper(".main-swiper", {
 
 document.getElementById('inference-form').addEventListener('submit', async function (event) {
     event.preventDefault(); // Prevent form submission from reloading the page
+
+    const submitBtn = document.getElementById('submit-btn');
+    if (submitBtn.textContent === 'Start Tracking') {
+        submitBtn.textContent = 'Stop Tracking';
+        isTrackingStarted = true;
+    } else if (submitBtn.textContent === 'Stop Tracking') {
+        stopTracking(submitBtn);
+        return;
+    }
+
     // clear previous data
     main_swiper.removeAllSlides();
     thumbnail_swiper.removeAllSlides();
@@ -48,6 +61,7 @@ document.getElementById('inference-form').addEventListener('submit', async funct
 
     if (!savedCamId) {
         alert("Please select the camera from the Map...");
+        stopTracking(submitBtn);
         return;
     }
     if (!savedConfidence) {
@@ -55,6 +69,7 @@ document.getElementById('inference-form').addEventListener('submit', async funct
     }
     if (savedConfidence > 1 || savedConfidence < 0) {
         alert("Invalid value for confidence");
+        stopTracking(submitBtn);
         return;
     }
 
@@ -64,6 +79,7 @@ document.getElementById('inference-form').addEventListener('submit', async funct
 
     if (savedOverlap > 1 || savedOverlap < 0) {
         alert("Invalid value for overlap");
+        stopTracking(submitBtn);
         return;
     }
 
@@ -71,21 +87,28 @@ document.getElementById('inference-form').addEventListener('submit', async funct
     if (!isTrackingEnabled) {
         if (!savedDate || !savedTime) {
             alert("Please enter date and time.");
+            stopTracking(submitBtn);
             return;
         }
         const dateRegex = /^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(19|20)\d{2}$/;
         const timeRegex = /^(0[0-9]|1[0-9]|2[0-3]):([0-5][0-9])$/;
         if (!dateRegex.test(savedDate) || !timeRegex.test(savedTime)) {
             alert("Incorrect Date or Time format..");
+            stopTracking(submitBtn);
             return;
         }
     }
 
 
-    (async () => {
+    
         let imgUrlsGenerator = fetchImageUrls(savedCamId, savedDate, savedTime, savedTrackHistory, 1);
 
         for await (const img of imgUrlsGenerator) {
+            console.log("Prev Img to be infered: ", img);
+            if (!isTrackingStarted) {
+                stopTracking(submitBtn);
+                break;
+            }
             console.log("Img to be infered: ", img);
             if (!img) {
                 continue;
@@ -105,13 +128,23 @@ document.getElementById('inference-form').addEventListener('submit', async funct
             createCharts();
         }
 
-    })();
     if (isTrackingEnabled) {
-        setInterval(liveTrackingCallback, 60000);
+        trackSetInterval = setInterval(liveTrackingCallback, 60000);
         trackEndTime = Date.now() + savedTrackDuration * 60 * 1000;
+    } else {
+        console.log("Tracking Ended..");
+        stopTracking(submitBtn);
     }
 
 });
+
+function stopTracking(submitBtn) {
+    submitBtn.textContent = 'Start Tracking';
+    isTrackingStarted = false;
+    if (trackSetInterval) {
+        clearInterval(trackSetInterval);
+    }
+}
 
 
 function findInsertIndex(sortedList, num) {
@@ -347,7 +380,11 @@ liveTrackingCheckbox.addEventListener('change', toggleFields);
 
 
 async function liveTrackingCallback() {
-    if (!isTrackingEnabled || !savedCamId || Date.now() > trackEndTime) {
+    if (!isTrackingEnabled || !savedCamId) {
+        return;
+    }
+    if (Date.now() > trackEndTime) {
+        stopTracking(document.getElementById('submit-btn'));
         return;
     }
     const img = await fetchImageUrl(savedCamId, null);

@@ -606,6 +606,13 @@
             }
         },
         {
+            "View from Tanjong Katong Flyover": {
+                "cam_id": "3796",
+                "latitude": 1.297512569,
+                "longitude": 103.8983019
+            }
+        },
+        {
             "View from Entrance from MCE": {
                 "cam_id": "3704",
                 "latitude": 1.2958550156561,
@@ -638,13 +645,6 @@
                 "cam_id": "3795",
                 "latitude": 1.30145145166066,
                 "longitude": 103.910596320237
-            }
-        },
-        {
-            "View from Tanjong Katong Flyover": {
-                "cam_id": "3796",
-                "latitude": 1.297512569,
-                "longitude": 103.8983019
             }
         },
         {

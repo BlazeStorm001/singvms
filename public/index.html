@@ -32,7 +32,7 @@
         <div id="camera-info" class="text-lg font-medium mb-6 text-gray-700"></div>
 
         <div class="mb-6">
-            <button onclick="toggleInstructions()" class="w-full flex justify-between items-center bg-blue-600 text-white font-semibold p-4 rounded-lg shadow-md focus:outline-none">
+            <button onclick="toggleInstructions()" class="w-full flex justify-between items-center bg-blue-600 hover:bg-blue-500 text-white font-semibold p-4 rounded-lg shadow-md focus:outline-none">
                 <div class="flex items-center">
                     <!-- Font Awesome Question Mark Icon -->
                     <i class="fas fa-question-circle text-white mr-2"></i>
@@ -41,7 +41,7 @@
                 <i id="icon" class="fas fa-chevron-down transition-transform"></i>
             </button>
     
-            <div id="instructions-content" class="hidden mt-4 p-4 bg-gray-100 rounded-lg shadow-inner text-gray-700">
+            <div id="instructions-content" class="mt-4 p-4 bg-white rounded-lg shadow-inner text-gray-700">
                 <p>Welcome to the Singapore Live Traffic Monitoring site! Here’s how to get started:</p>
                 <ul class="list-disc list-inside mt-2">
                     <li>Use the map to select a camera by clicking one of the markers and then choosing one of the locations.</li>
@@ -145,7 +145,7 @@
     </div>
 </div>
             <!-- Submit Button -->
-            <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-2 rounded-md hover:bg-blue-700 focus:outline-none">Start Tracking</button>
+            <button type="submit" id="submit-btn" class="w-full bg-blue-600 text-white font-semibold py-2 rounded-md hover:bg-blue-700 focus:outline-none">Start Tracking</button>
         </form>
 
         <!-- Swiper Containers for Image Galleries -->
